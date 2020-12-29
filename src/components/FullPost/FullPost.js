@@ -4,14 +4,15 @@ import axios from "axios";
 import "./FullPost.css";
 
 class FullPost extends Component {
-  state = { loadedPost: null };
+  state = { loadedPost: { id: null } };
 
   componentDidUpdate() {
-    if (this.props.postId) {
+    if (this.props.postId !== this.state.loadedPost.id) {
       axios
         .get("https://jsonplaceholder.typicode.com/posts/" + this.props.postId)
         .then((response) => {
           this.setState({ loadedPost: response.data });
+          console.log(this.state);
         });
     }
   }
