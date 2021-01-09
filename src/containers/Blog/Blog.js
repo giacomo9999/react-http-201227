@@ -1,50 +1,10 @@
 import React, { Component } from "react";
+import Posts from "./Posts/Posts";
 
-import Post from "../../components/Post/Post";
-import FullPost from "../../components/FullPost/FullPost";
-import NewPost from "../../components/NewPost/NewPost";
 import "./Blog.css";
-import axios from "../../axios";
 
 class Blog extends Component {
-  state = { posts: [], selectedPostId: null, error: false };
-
-  componentDidMount() {
-    axios
-      .get("/posts")
-      .then((response) => {
-        const posts = response.data.slice(0, 4);
-        const updatedPosts = posts.map((post) => {
-          return {
-            ...post,
-            author: "Jim G.",
-          };
-        });
-        this.setState({ posts: updatedPosts });
-      })
-      .catch((err) => {
-        this.setState({ error: true });
-      });
-  }
-
-  postSelectHandler = (id) => {
-    console.log(id + " clicked.");
-    this.setState({ selectedPostId: id });
-  };
-
   render() {
-    let posts = <p style={{ textAlign: "center" }}>An Error Occurred</p>;
-    if (this.state.error === false) {
-      posts = this.state.posts.map((post) => (
-        <Post
-          key={post.id}
-          title={post.title}
-          author={post.author}
-          clicked={() => this.postSelectHandler(post.id)}
-        />
-      ));
-    }
-
     return (
       <div className="Blog">
         <header>
@@ -59,13 +19,7 @@ class Blog extends Component {
             </ul>
           </nav>
         </header>
-        <section className="Posts">{posts}</section>
-        <section>
-          <FullPost postId={this.state.selectedPostId} />
-        </section>
-        <section>
-          <NewPost />
-        </section>
+        <Posts />
       </div>
     );
   }
